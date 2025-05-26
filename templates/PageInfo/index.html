@@ -115,7 +115,7 @@
 
 <!-- Add Group For Page Button (ลิงก์ไปยัง create_group view) -->
 <li class="menu-item">
-  <a href="javascript:void(0);" class="menu-link custom-add-group" data-bs-toggle="modal" data-bs-target="#addGroupModal">
+  <a href="{% url 'create_group' %}" class="menu-link custom-add-group">
     <i class="menu-icon tf-icons ri ri-add-line"></i>
     <div data-i18n="Add Group For Page">Add Group For Page</div>
   </a>
@@ -764,7 +764,7 @@
       <div>
   <h3 style="font-weight: 500; font-size: 24px;">Select a Group to View Dashboard</h3>
       </div>
-    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addGroupModal">Add Group For Page</a>
+  <a href="{% url 'create_group' %}" class="btn" style="background-color: #FF6801; color: white; border-radius: 8px; padding: 8px 16px;">+ Add Group For Page</a>
 
     <!-- 🔥 Modal Add Group ใส่ตรงนี้ -->
     <div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupLabel" aria-hidden="true">
