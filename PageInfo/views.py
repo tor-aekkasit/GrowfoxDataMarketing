@@ -71,6 +71,7 @@ def index(request):
     return render(request, 'PageInfo/index.html', {
         'page_groups': page_groups,
         'total_groups': total_groups,  # ส่งจำนวนทั้งหมดไป template
+                'form': form,  # ✅ ส่ง form ไปด้วย
     })
 
 def sidebar_context(request):
