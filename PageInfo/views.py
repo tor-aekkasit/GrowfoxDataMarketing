@@ -71,9 +71,5 @@ def sidebar_context(request):
     page_groups = PageGroup.objects.all()
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
-def show_group(request):
-    # ดึง Group แรกที่มีหรือกำหนดจาก URL
-    selected_group = PageGroup.objects.prefetch_related('pages').first()
-    if not selected_group:
-        return render(request, 'PageInfo/showgroup.html', {'error_message': 'No groups found.'})
-    return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
+def showgroup(request):
+    return render(request, 'PageInfo/showgroup.html')
