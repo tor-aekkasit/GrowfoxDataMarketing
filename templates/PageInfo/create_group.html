@@ -821,37 +821,44 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
-            <div class="container-xxl flex-grow-1 container-p-y">
+<!-- Content wrapper -->
+<div class="content-wrapper d-flex" style="background-color: #F7F7F9; height: 100vh;">
 
-              <!-- Topic and Instructors -->
-<div class="row mb-6 g-6">
-  <div class="col-12 col-xxl-8">
-    <div class="card h-100">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="card-title m-0 me-2">Create New Group</h5>
+  <!-- Sidebar ซ้ายแสดงชื่อเพจ -->
+  <div style="width: 260px; background-color: #F7F7F9; padding: 20px;">
+    <div style="background: #FF6801; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: 500;">
+      {{ selected_group.group_name }}
+    </div>
+    <div style="margin-top: 20px;">
+      <h6 style="font-weight: 400; font-size: 14px;">Page Name</h6>
+      {% for page in selected_group.pages.all %}
+      <div style="background: white; border-radius: 8px; padding: 10px; margin-top: 10px; display: flex; align-items: center; gap: 10px;">
+        <img src="{{ page.image_url|default:'https://placehold.co/40x40' }}" alt="Page Image" style="width: 40px; height: 40px; border-radius: 50%;">
+        <div>{{ page.name }}</div>
       </div>
-      <div class="card-body">
-<form method="POST">
-  {% csrf_token %}
-  <div class="mb-3">
-    <label for="id_group_name" class="form-label">Group Name</label>
-    {{ form.group_name }}
+      {% endfor %}
+    </div>
+    <a href="{% url 'add_page' %}" class="btn btn-orange" style="margin-top: 20px; width: 100%; display: inline-block; background-color: #FF6801; color: white; text-align: center; padding: 8px; border-radius: 8px;">+ Add Page</a>
   </div>
-  <div class="d-flex justify-content-end">
-    <a href="/" class="btn btn-outline-secondary me-2">Cancel</a>
-    <button type="submit" class="btn btn-warning">Create</button>
-  </div>
-</form>
-      </div>
+
+  <!-- Content ขวา -->
+  <div style="flex-grow: 1; padding: 20px; background-color: #F7F7F9;">
+    <div style="background: white; border-radius: 10px; padding: 20px; height: 200px; margin-bottom: 20px;">
+      <!-- กล่องเปล่าแทนตาราง -->
+      <h5>All Page Metric Overview</h5>
+    </div>
+    <div style="background: white; border-radius: 10px; padding: 20px; height: 200px; margin-bottom: 20px;">
+      <!-- กล่องเปล่าแทนตาราง -->
+      <h5>Pages with Most Followers</h5>
+    </div>
+    <div style="background: white; border-radius: 10px; padding: 20px; height: 200px;">
+      <!-- กล่องเปล่าแทนตาราง -->
+      <h5>Share of Interactions</h5>
     </div>
   </div>
+
 </div>
 
-              <!--  Topic and Instructors  End-->
-
-            </div>
             <!-- / Content -->
 
             <!-- Footer -->
