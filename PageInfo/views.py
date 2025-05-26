@@ -72,4 +72,11 @@ def sidebar_context(request):
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
 def showgroup(request):
-    return render(request, 'PageInfo/showgroup.html')
+    # ดึงกลุ่มที่ต้องการแสดง (เช่นดึงอันแรกหรือดึงตาม ID)
+    selected_group = PageGroup.objects.first()  # หรือใช้ get(pk=1) หรือ get(id=...)
+
+    if not selected_group:
+        # ถ้าไม่มีข้อมูล ให้ส่งข้อความ error หรือ redirect
+        return render(request, 'PageInfo/showgroup.html', {'error': 'No group found'})
+
+    return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
