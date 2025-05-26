@@ -12,15 +12,9 @@ def create_group(request):
         form = PageGroupForm(request.POST)
         if form.is_valid():
             page_group = form.save()
-            # Redirect กลับไปหน้าที่ส่ง POST มา (อยู่หน้าเดิม)
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect('group_detail', group_id=page_group.id)
     else:
         form = PageGroupForm()
-    
-    # เช็คว่าเป็นหน้า Modal ที่ต้องการ render form เดี่ยว (ไม่บังคับ)
-    if request.GET.get('modal') == 'true':
-        return render(request, 'PageInfo/create_group_modal_form.html', {'form': form})
-    
     return render(request, 'PageInfo/create_group.html', {'form': form})
 
 
@@ -71,7 +65,6 @@ def index(request):
     return render(request, 'PageInfo/index.html', {
         'page_groups': page_groups,
         'total_groups': total_groups,  # ส่งจำนวนทั้งหมดไป template
-                'form': form,  # ✅ ส่ง form ไปด้วย
     })
 
 def sidebar_context(request):
