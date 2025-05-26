@@ -72,6 +72,8 @@ def sidebar_context(request):
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
 def show_group(request):
-    selected_group = PageGroup.objects.prefetch_related('pages').first()  # หรือ filter ด้วย ID ที่ต้องการ
-    context = {'selected_group': selected_group}
-    return render(request, 'PageInfo/showgroup.html', context)
+    # ดึง Group แรกที่มีหรือกำหนดจาก URL
+    selected_group = PageGroup.objects.prefetch_related('pages').first()
+    if not selected_group:
+        return render(request, 'PageInfo/showgroup.html', {'error_message': 'No groups found.'})
+    return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
