@@ -71,6 +71,8 @@ def sidebar_context(request):
     page_groups = PageGroup.objects.all()
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
-def showgroup(request):
-    return render(request, 'PageInfo/showgroup.html')  # หรือ 'templates/PageInfo/showgroup.html'
+def showgroup(request, group_id):  # ต้องมี group_id
+    selected_group = PageGroup.objects.get(id=group_id)
+    return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
+
 
