@@ -71,8 +71,7 @@ def sidebar_context(request):
     page_groups = PageGroup.objects.all()
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
-def showgroup(request, group_id):  # ต้องมี group_id
-    selected_group = PageGroup.objects.get(id=group_id)
-    return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
-
-
+def show_group(request):
+    selected_group = PageGroup.objects.prefetch_related('pages').first()  # หรือ filter ด้วย ID ที่ต้องการ
+    context = {'selected_group': selected_group}
+    return render(request, 'PageInfo/showgroup.html', context)
