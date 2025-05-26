@@ -754,48 +754,44 @@
             <!-- Content -->
 <!-- Content wrapper -->
 <div class="content-wrapper">
-  <div class="container-xxl flex-grow-1 container-p-y">
-
-    <div class="row">
-      <!-- ตารางแสดงกลุ่ม -->
-      <div class="col-md-6">
-        <div class="card p-4 mt-4 h-100">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 style="font-weight: 500; font-size: 24px;">Select a Group to View Dashboard</h3>
-            <a href="{% url 'create_group' %}" class="btn" style="background-color: #FF6801; color: white; border-radius: 8px; padding: 8px 16px;">+ Add Group For Page</a>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover" style="border: 1px solid #E0E0E0; border-radius: 8px; overflow: hidden;">
-              <thead style="background-color: #F5F5F5; color: #424242; font-weight: 500; font-size: 15px;">
-                <tr>
-                  <th style="padding: 16px;">Group Name</th>
-                  <th style="padding: 16px;">Pages</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for group in page_groups %}
-                <tr style="border-bottom: 1px solid #E0E0E0;">
-                  <td style="padding: 16px; font-size: 15px;">
-                    <a href="{% url 'group_detail' group.pk %}" style="text-decoration: none; color: inherit;">
-                      {{ group.group_name }}
-                    </a>
-                  </td>
-                  <td style="padding: 16px; font-size: 15px;">{{ group.pages.count }} Pages in this Group</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <div>Rows per group: {{ page_groups|length }}</div>
-            <div>1-{{ page_groups|length }} of {{ total_groups }}</div>
-          </div>
-        </div>
-      </div>
+ <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="card p-4 mt-4" style="max-width: 600px; width: 100%;"> <!-- เพิ่ม max-width ให้ card -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 style="font-weight: 500; font-size: 24px;">Select a Group to View Dashboard</h3>
+      <a href="{% url 'create_group' %}" class="btn" style="background-color: #FF6801; color: white; border-radius: 8px; padding: 8px 16px;">+ Add Group For Page</a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover" style="border: 1px solid #E0E0E0; border-radius: 8px; overflow: hidden;">
+        <thead style="background-color: #F5F5F5; color: #424242; font-weight: 500; font-size: 15px;">
+          <tr>
+            <th style="padding: 16px;">Group Name</th>
+            <th style="padding: 16px;">Pages</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in page_groups %}
+          <tr style="border-bottom: 1px solid #E0E0E0;">
+            <td style="padding: 16px; font-size: 15px;">
+              <a href="{% url 'group_detail' group.pk %}" style="text-decoration: none; color: inherit;">
+                {{ group.group_name }}
+              </a>
+            </td>
+            <td style="padding: 16px; font-size: 15px;">{{ group.pages.count }} Pages in this Group</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <div>Rows per group: {{ page_groups|length }}</div>
+      <div>1-{{ page_groups|length }} of {{ total_groups }}</div>
+    </div>
+  </div>
+</div>
 
       <!-- การ์ด Welcome -->
       <div class="col-md-6">
-        <div class="card p-4 mt-4 h-100">
+        <div class="card p-4 mt-4" style="max-width: 600px; width: 100%;">
           <h5 class="mb-2">Welcome to Growfox Marketing Data Center</h5>
           <p class="text-muted mb-4">This application is intended for internal use only. Unauthorized access is strictly prohibited.</p>
           <div class="row">
