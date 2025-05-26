@@ -72,4 +72,11 @@ def sidebar_context(request):
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
 def showgroup(request):
-    return render(request, 'PageInfo/showgroup.html')  # หรือ 'templates/PageInfo/showgroup.html'
+        if request.method == 'POST':
+        form = PageGroupForm(request.POST)
+        if form.is_valid():
+            page_group = form.save()
+            return redirect('group_detail', group_id=page_group.id)
+    else:
+        form = PageGroupForm()
+    return render(request, 'PageInfo/showgroup.html', {'form': form})
