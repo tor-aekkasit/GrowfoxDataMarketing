@@ -857,18 +857,27 @@
             <!-- / Content -->
 
             <!-- Footer -->
+<style>
+  .footer-orange {
+    color: #FF6F00 !important;  /* ใช้สีส้มเดียวกับปุ่ม Add Group For Page */
+  }
+</style>
+
 <footer class="content-footer footer bg-footer-theme mt-auto py-4 border-top">
   <div class="container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between">
-    <div class="text-muted mb-2 mb-md-0">
+    <!-- เพิ่มคลาส footer-orange -->
+    <div class="footer-orange mb-2 mb-md-0">
       © <script>document.write(new Date().getFullYear());</script> Growfox Marketing Data Center. All rights reserved.
     </div>
     <div class="footer-links d-flex flex-wrap gap-3">
-      <a href="/terms" class="footer-link text-muted">Terms</a>
-      <a href="/privacy" class="footer-link text-muted">Privacy</a>
-      <a href="/support" class="footer-link text-muted">F.A.Q.</a>
+      <!-- เพิ่มคลาส footer-orange -->
+      <a href="/terms" class="footer-link footer-orange">Terms</a>
+      <a href="/privacy" class="footer-link footer-orange">Privacy</a>
+      <a href="/support" class="footer-link footer-orange">F.A.Q.</a>
     </div>
   </div>
 </footer>
+
             <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>
