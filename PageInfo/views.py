@@ -70,3 +70,6 @@ def index(request):
 def sidebar_context(request):
     page_groups = PageGroup.objects.all()
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
+
+def showgroup(request):
+    return render(request, 'PageInfo/showgroup.html')  # หรือ 'templates/PageInfo/showgroup.html'
