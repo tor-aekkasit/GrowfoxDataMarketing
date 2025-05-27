@@ -15,7 +15,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Create Group - Growfox</title>
+     <title>Growfox - Marketing Data Center</title>
 
     <meta name="description" content="" />
 
@@ -71,119 +71,51 @@
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->
-{%  load static %}
-
-<!doctype html>
-
-<html
-  lang="en"
-  class="layout-navbar-fixed layout-menu-fixed layout-compact"
-  dir="ltr"
-  data-skin="default"
-  data-bs-theme="light"
-  data-assets-path="{% static 'assets' %}">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Demo: Academy - Dashboard - App | Materialize - Bootstrap Dashboard PRO</title>
-
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon/favicon.ico' %}" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
-      rel="stylesheet" />
-
-    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/iconify-icons.css' %}" />
-
-    <!-- Core CSS -->
-    <!-- build:css assets/vendor/css/theme.css -->
-
-    <link rel="stylesheet" href="{% static 'assets/vendor/libs/node-waves/node-waves.css' %}" />
-
-    <link rel="stylesheet" href="{% static 'assets/vendor/libs/pickr/pickr-themes.css' %}" />
-
-    <link rel="stylesheet" href="{% static 'assets/vendor/css/core.css' %}" />
-    <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
-
-    <!-- Vendors CSS -->
-
-    <link rel="stylesheet" href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
-
-    <!-- endbuild -->
-
-    <link rel="stylesheet" href="{% static 'assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
-    <link rel="stylesheet" href="{% static 'assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
-    <link rel="stylesheet" href="{% static 'assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
-    <link rel="stylesheet" href="{% static 'assets/vendor/libs/apex-charts/apex-charts.css' %}" />
-
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
-    <script src="{% static 'assets/vendor/js/helpers.js' %}"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
-    <script src="{% static 'assets/vendor/js/template-customizer.js' %}"></script>
-
-    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
-
-    <script src="{% static 'assets/js/config.js' %}"></script>
-  </head>
-
-  <body>
-    <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container">
-        <!-- Menu -->
-
 <aside id="layout-menu" class="layout-menu menu-vertical menu">
   <div class="app-brand demo logo-wrapper">
-    <a href="index.html" class="app-brand-link">
+    <!-- ✅ แก้ href จาก index.html เป็น {% url 'index' %} -->
+    <a href="{% url 'index' %}" class="app-brand-link">
       <img src="{% static 'assets/img/branding/growfox.webp' %}" alt="Growfox Logo" class="logo-img" />
     </a>
 
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-white text-large ms-auto">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M8.47365 11.7183C8.11707 12.0749 8.11707 12.6531 8.47365 13.0097L12.071 16.607C12.4615 16.9975 12.4615 17.6305 12.071 18.021C11.6805 18.4115 11.0475 18.4115 10.657 18.021L5.83009 13.1941C5.37164 12.7356 5.37164 11.9924 5.83009 11.5339L10.657 6.707C11.0475 6.31653 11.6805 6.31653 12.071 6.707C12.4615 7.09747 12.4615 7.73053 12.071 8.121L8.47365 11.7183Z"
-                  fill-opacity="0.9" />
-                <path
-                  d="M14.3584 11.8336C14.0654 12.1266 14.0654 12.6014 14.3584 12.8944L18.071 16.607C18.4615 16.9975 18.4615 17.6305 18.071 18.021C17.6805 18.4115 17.0475 18.4115 16.657 18.021L11.6819 13.0459C11.3053 12.6693 11.3053 12.0587 11.6819 11.6821L16.657 6.707C17.0475 6.31653 17.6805 6.31653 18.071 6.707C18.4615 7.09747 18.4615 7.73053 18.071 8.121L14.3584 11.8336Z"
-                  fill-opacity="0.4" />
-              </svg>
-            </a>
-          </div>
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-white text-large ms-auto">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M8.47365 11.7183C8.11707 12.0749 8.11707 12.6531 8.47365 13.0097L12.071 16.607C12.4615 16.9975 12.4615 17.6305 12.071 18.021C11.6805 18.4115 11.0475 18.4115 10.657 18.021L5.83009 13.1941C5.37164 12.7356 5.37164 11.9924 5.83009 11.5339L10.657 6.707C11.0475 6.31653 11.6805 6.31653 12.071 6.707C12.4615 7.09747 12.4615 7.73053 12.071 8.121L8.47365 11.7183Z"
+          fill-opacity="0.9" />
+        <path
+          d="M14.3584 11.8336C14.0654 12.1266 14.0654 12.6014 14.3584 12.8944L18.071 16.607C18.4615 16.9975 18.4615 17.6305 18.071 18.021C17.6805 18.4115 17.0475 18.4115 16.657 18.021L11.6819 13.0459C11.3053 12.6693 11.3053 12.0587 11.6819 11.6821L16.657 6.707C17.0475 6.31653 17.6805 6.31653 18.071 6.707C18.4615 7.09747 18.4615 7.73053 18.071 8.121L14.3584 11.8336Z"
+          fill-opacity="0.4" />
+      </svg>
+    </a>
+  </div>
 
-          <div class="menu-inner-shadow"></div>
+  <div class="menu-inner-shadow"></div>
 
-          <ul class="menu-inner py-1">
+  <ul class="menu-inner py-1">
+
             <!-- Add Group Menu Bar -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon icon-base ri ri-home-smile-line"></i>
-                <div data-i18n="All Group">All Group</div>
-                <div class="badge badge-center text-bg-danger rounded-pill ms-auto">1</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="app-ecommerce-dashboard.html" class="menu-link">
-                    <div data-i18n="Group 1">Group1</div>
-                  </a>
-              </ul>
-            </li>
-
-            <!-- Add Group For Page Button -->
 <li class="menu-item">
-  <a href="{% url 'add_group' %}" class="menu-link custom-add-group">
+  <a href="javascript:void(0);" class="menu-link menu-toggle">
+    <i class="menu-icon icon-base ri ri-home-smile-line"></i>
+    <div data-i18n="All Group">All Group</div>
+    <div class="badge badge-center text-bg-danger rounded-pill ms-auto">{{ page_groups_count }}</div>
+  </a>
+  <ul class="menu-sub">
+    {% for group in page_groups_sidebar %}
+      <li class="menu-item">
+        <a href="{% url 'group_detail' group.id %}" class="menu-link">
+          <div data-i18n="{{ group.group_name }}">{{ group.group_name }}</div>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</li>
+
+
+<!-- Add Group For Page Button (ลิงก์ไปยัง create_group view) -->
+<li class="menu-item">
+  <a href="{% url 'create_group' %}" class="menu-link custom-add-group">
     <i class="menu-icon tf-icons ri ri-add-line"></i>
     <div data-i18n="Add Group For Page">Add Group For Page</div>
   </a>
@@ -203,7 +135,7 @@
             <!-- Page Overview Menu Bar -->
 
             <li class="menu-item active open">
-                <a href="{% url 'showgroup' %}" class="menu-link">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ri ri-bill-line"></i>
                 <div data-i18n="Page">Page</div>
               </a>
@@ -307,40 +239,7 @@
 
               <!-- /Search -->
 
-              <ul class="navbar-nav flex-row align-items-center ms-md-auto">
-                <li class="nav-item dropdown-language dropdown me-sm-2 me-xl-0">
-                  <a
-                    class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
-                    href="javascript:void(0);"
-                    data-bs-toggle="dropdown">
-                    <i class="icon-base ri ri-translate-2 icon-22px"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a class="dropdown-item" href="javascript:void(0);" data-language="en" data-text-direction="ltr">
-                        <span>English</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="javascript:void(0);" data-language="fr" data-text-direction="ltr">
-                        <span>French</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="javascript:void(0);" data-language="ar" data-text-direction="rtl">
-                        <span>Arabic</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="javascript:void(0);" data-language="de" data-text-direction="ltr">
-                        <span>German</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <!--/ Language -->
-
-                <!-- Style Switcher -->
+              <ul class="navbar-nav flex-row align-items-center ms-md-auto"
                 <li class="nav-item dropdown me-sm-2 me-xl-0">
                   <a
                     class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
@@ -387,100 +286,6 @@
                   </ul>
                 </li>
                 <!-- / Style Switcher-->
-
-                <!-- Quick links -->
-                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-sm-2 me-xl-0">
-                  <a
-                    class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
-                    href="javascript:void(0);"
-                    data-bs-toggle="dropdown"
-                    data-bs-auto-close="outside"
-                    aria-expanded="false">
-                    <i class="icon-base ri ri-star-smile-line icon-22px"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end p-0">
-                    <div class="dropdown-menu-header border-bottom">
-                      <div class="dropdown-header d-flex align-items-center py-3">
-                        <h6 class="mb-0 me-auto">Shortcuts</h6>
-                        <a
-                          href="javascript:void(0)"
-                          class="btn btn-text-secondary rounded-pill btn-icon dropdown-shortcuts-add text-heading"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="Add shortcuts">
-                          <i class="icon-base ri ri-add-line text-heading"></i>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="dropdown-shortcuts-list scrollable-container">
-                      <div class="row row-bordered overflow-visible g-0">
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-calendar-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="app-calendar.html" class="stretched-link">Calendar</a>
-                          <small>Appointments</small>
-                        </div>
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-file-text-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
-                          <small>Manage Accounts</small>
-                        </div>
-                      </div>
-                      <div class="row row-bordered overflow-visible g-0">
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-user-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="app-user-list.html" class="stretched-link">User App</a>
-                          <small>Manage Users</small>
-                        </div>
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-computer-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="app-access-roles.html" class="stretched-link">Role Management</a>
-                          <small>Permission</small>
-                        </div>
-                      </div>
-                      <div class="row row-bordered overflow-visible g-0">
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-pie-chart-2-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="index.html" class="stretched-link">Dashboard</a>
-                          <small>User Dashboard</small>
-                        </div>
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-settings-4-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
-                          <small>Account Settings</small>
-                        </div>
-                      </div>
-                      <div class="row row-bordered overflow-visible g-0">
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-question-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="pages-faq.html" class="stretched-link">FAQs</a>
-                          <small>FAQs & Articles</small>
-                        </div>
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="icon-base ri ri-tv-2-line icon-26px text-heading"></i>
-                          </span>
-                          <a href="modal-examples.html" class="stretched-link">Modals</a>
-                          <small>Useful Popups</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <!-- Quick links -->
 
                 <!-- Notification -->
                 <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
@@ -734,11 +539,11 @@
                 </li>
                 <!--/ Notification -->
 
-                <!-- User -->
-                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                            <!-- User -->
+                    <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../../assets/img/avatars/1.png" alt="avatar" class="rounded-circle" />
+<img src="{% static 'assets/img/avatars/Fox.webp' %}" alt="avatar" class="rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
@@ -747,15 +552,12 @@
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <div class="avatar avatar-online">
-                              <img
-                                src="../../assets/img/avatars/1.png"
-                                alt="alt"
-                                class="w-px-40 h-auto rounded-circle" />
+<img src="{% static 'assets/img/avatars/Fox.webp' %}" alt="avatar" class="rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <h6 class="mb-0 small">John Doe</h6>
-                            <small class="text-body-secondary">Admin</small>
+                            <h6 class="mb-0 small">Hello Growfox</h6>
+                            <small class="text-body-secondary">Maythas</small>
                           </div>
                         </div>
                       </a>
@@ -776,30 +578,6 @@
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="pages-account-settings-billing.html">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 icon-base ri ri-file-text-line icon-22px me-3"></i>
-                          <span class="flex-grow-1 align-middle">Billing Plan</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger">4</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="pages-pricing.html">
-                        <i class="icon-base ri ri-money-dollar-circle-line icon-22px me-3"></i
-                        ><span class="align-middle">Pricing</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="pages-faq.html">
-                        <i class="icon-base ri ri-question-line icon-22px me-3"></i
-                        ><span class="align-middle">FAQ</span>
-                      </a>
-                    </li>
-                    <li>
                       <div class="d-grid px-4 pt-2 pb-1">
                         <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
                           <small class="align-middle">Logout</small>
@@ -815,59 +593,79 @@
           </nav>
 
           <!-- / Navbar -->
-
-          <!-- Content wrapper -->
 <!-- Content wrapper -->
-<!-- Content wrapper -->
-<div class="content-wrapper d-flex" style="background-color: #F7F7F9; height: 100vh;">
+<div class="content-wrapper">
+  <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="card p-4 mb-4">
+          <div class="row justify-content-between align-items-start mb-4">
+            <div class="col-md-9 d-flex">
+              <div class="position-relative me-3">
+                <a href="{{ page.page_url }}" target="_blank" class="position-absolute" style="top: 0px; left: 90px; z-index: 2;">
+                  <img src="{% static 'assets/img/icons/facebook-icon.webp' %}" alt="Facebook Icon" style="width: 20px; height: 20px;" />
+                </a>
+                <a href="{{ page.page_url }}" target="_blank">
+                  <img class="rounded-circle border border-2 border-light" src="{{ page.profile_pic }}" alt="Page Logo" width="100" height="100" />
+                </a>
+              </div>
+              <div class="ms-2">
+                <h5 class="mb-2">{{ page.page_name }}</h5>
+                <div class="text-muted mb-1"><strong>Page Username:</strong> {{ page.page_username }}</div>
+                <div class="text-muted mb-1"><strong>Page Categories:</strong> {{ page.page_category }}</div>
+              </div>
+            </div>
+            <div class="col-md-3 d-flex justify-content-end">
+              <input type="date" class="form-control" style="max-width: 180px; font-size: 0.9rem;" />
+            </div>
+          </div>
 
-  <!-- Sidebar ซ้ายแสดงชื่อเพจ -->
-  <div style="width: 260px; background-color: #F7F7F9; padding: 20px;">
-    <div style="background: #FF6801; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: 500;">
-      {% if selected_group %}
-        {{ selected_group.group_name }}
-      {% else %}
-        No group selected
-      {% endif %}
+          <div class="row mb-4">
+            <div class="col-md-4 text-muted"><strong>Page Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website }}</a></div>
+            <div class="col-md-4 text-muted"><strong>Page Email:</strong> <a href="mailto:{{ page.page_email }}">{{ page.page_email }}</a></div>
+            <div class="col-md-4 text-muted"><strong>Page Number:</strong> {{ page.page_phone|default:"-" }}</div>
+          </div>
+
+          {% if page.page_description %}
+          <div class="row mb-4 mt-3">
+            <div class="col-md-8">
+              <strong>Page Description:</strong>
+              <div class="text-muted">{{ page.page_description }}</div>
+            </div>
+            {% if page.page_address %}
+            <div class="col-md-4">
+              <strong>Page Address:</strong>
+              <div class="text-muted">{{ page.page_address }}</div>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+<div class="row text-center mt-4">
+  <div class="col">
+    <div class="fw-semibold">
+      {{ page.page_followers_count|default:"-" }}
     </div>
-
-    <div style="margin-top: 20px;">
-      <h6 style="font-weight: 400; font-size: 14px;">Page Name</h6>
-      {% if selected_group and selected_group.pages.all %}
-        {% for page in selected_group.pages.all %}
-        <div style="background: white; border-radius: 8px; padding: 10px; margin-top: 10px; display: flex; align-items: center; gap: 10px;">
-          <img src="{{ page.image_url|default:'https://placehold.co/40x40' }}" alt="Page Image" style="width: 40px; height: 40px; border-radius: 50%;">
-          <div>{{ page.name }}</div>
-        </div>
-        {% endfor %}
-      {% else %}
-        <p>No pages found.</p>
-      {% endif %}
-    </div>
-
-    {% if selected_group %}
-      <a href="{% url 'add_page' selected_group.id %}" class="btn btn-orange" style="margin-top: 20px; width: 100%; display: inline-block; background-color: #FF6801; color: white; text-align: center; padding: 8px; border-radius: 8px;">+ Add Pages</a>
-    {% else %}
-      <p>Please select a group to add pages.</p>
-    {% endif %}
+    <div class="text-muted small">Page Followers</div>
   </div>
 
-  <!-- Content ขวา -->
-  <div style="flex-grow: 1; padding: 20px; background-color: #F7F7F9;">
-    <div style="background: white; border-radius: 10px; padding: 20px; height: 200px; margin-bottom: 20px;">
-      <h5>All Page Metric Overview</h5>
+  <div class="col">
+    <div class="fw-semibold">
+      {{ page.page_likes_count|default:"-" }}
     </div>
-    <div style="background: white; border-radius: 10px; padding: 20px; height: 200px; margin-bottom: 20px;">
-      <h5>Pages with Most Followers</h5>
-    </div>
-    <div style="background: white; border-radius: 10px; padding: 20px; height: 200px;">
-      <h5>Share of Interactions</h5>
-    </div>
+    <div class="text-muted small">Page Likes</div>
   </div>
 
+  <div class="col">
+    <div class="fw-semibold">
+      {{ page.page_talking_count|default:"0" }}
+    </div>
+    <div class="text-muted small">Page Talking</div>
+  </div>
 </div>
 
-            <!-- / Content -->
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+  </div>
+</div>
 
             <!-- Footer -->
 <footer class="content-footer footer bg-footer-theme mt-auto py-4 border-top">
@@ -882,7 +680,6 @@
     </div>
   </div>
 </footer>
-
             <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>
