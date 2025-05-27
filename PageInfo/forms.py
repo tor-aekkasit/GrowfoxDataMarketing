@@ -19,3 +19,4 @@ class PageGroupForm(forms.ModelForm):
                 'class': 'form-control form-control-lg',  # เพิ่ม form-control-lg เพื่อให้ input ใหญ่เหมือน add_page
                 'placeholder': 'Input Group Name'
             }),
+        }
