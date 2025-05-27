@@ -71,9 +71,13 @@ def sidebar_context(request):
     page_groups = PageGroup.objects.all()
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
-def pageview(request, page_id):
-    page = get_object_or_404(PageInfo, id=page_id)
+def page_view(request, page_id):
+    try:
+        page = PageInfo.objects.get(id=page_id)
+    except PageInfo.DoesNotExist:
+        return HttpResponseNotFound("Page not found")
     return render(request, 'PageInfo/pageview.html', {'page': page})
+
 
 def showgroup(request):
     # ดึงกลุ่มที่ต้องการแสดง (เช่นดึงอันแรกหรือดึงตาม ID)
