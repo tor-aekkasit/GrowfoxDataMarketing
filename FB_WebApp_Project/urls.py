@@ -29,4 +29,5 @@ urlpatterns = [
     path('add-page/<int:group_id>/', views.add_page, name='add_page'),
     path('group/<int:group_id>/', views.group_detail, name='group_detail'),
     path('showgroup/', views.showgroup, name='showgroup'),  # ✅ เพิ่ม
+    path('page/<int:page_id>/', views.pageview, name='pageview'),
 ]
