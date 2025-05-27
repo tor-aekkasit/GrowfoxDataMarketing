@@ -81,6 +81,6 @@ def showgroup(request):
 
     return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
 
-def page_view(request, page_id):
+def pageview(request, page_id):
     page = get_object_or_404(PageInfo, id=page_id)
     return render(request, 'PageInfo/pageview.html', {'page': page})
