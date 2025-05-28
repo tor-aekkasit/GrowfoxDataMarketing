@@ -132,6 +132,26 @@ class PageInfo:
         )
         self.general_info = self.extract_general_info(general_info_json)
 
+        # DB connection และ cursor ต้องสร้างก่อนหน้านี้
+       cursor.execute("""
+       INSERT INTO PageInfo_pageinfo (page_name, page_url, profile_pic, page_followers, ...)
+       VALUES (%s, %s, %s, %s, ...)
+       ON CONFLICT (page_id) DO UPDATE SET
+       page_name = EXCLUDED.page_name,
+       page_url = EXCLUDED.page_url,
+       profile_pic = EXCLUDED.profile_pic,
+       page_followers = EXCLUDED.page_followers,
+       ...
+   """, (
+    self.general_info["page_name"],
+    self.general_info["page_url"],
+    self.general_info["profile_pic"],
+    self.general_info["page_followers"],
+    ...
+))
+conn.commit()
+
+
         # Parse profile information
         profile_info_json = self.request_handler.parse_json_from_html(
             html_content, "profile_tile_items"
