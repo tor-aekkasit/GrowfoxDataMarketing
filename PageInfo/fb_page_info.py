@@ -198,16 +198,16 @@ class PageInfo:
                             or user.get("profilePicSmall", {}).get("uri")
                     )
 
-                    fb_profile_pic = (
-                            user.get("profilePicLarge", {}).get("uri")
-                            or user.get("profilePicMedium", {}).get("uri")
-                            or user.get("profilePicSmall", {}).get("uri")
+                    profile_pic = (
+                    user.get("profilePicLarge", {}).get("uri")
+                    or user.get("profilePicMedium", {}).get("uri")
+                    or user.get("profilePicSmall", {}).get("uri")
                     )
-                    if fb_profile_pic:
-                        sg_host_pic = upload_image_to_ftp(fb_profile_pic)
-                        general_info["profile_pic"] = sg_host_pic
-                    else:
-                        general_info["profile_pic"] = None
+                   if profile_pic:
+                   general_info["profile_pic"] = upload_image_to_ftp(profile_pic)
+                   else:
+                   general_info["profile_pic"] = None
+
 
                     profile_social_contents = user.get(
                         "profile_social_context", {}
