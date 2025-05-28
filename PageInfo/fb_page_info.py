@@ -1,12 +1,52 @@
 from pprint import pprint
-
-from curl_cffi import requests
+from curl_cffi import requests   # ใช้ curl_cffi แทน requests
 from selectolax.parser import HTMLParser
 import json
 import sys
 import re
 from typing import Optional, Dict
 from urllib.parse import urlparse
+
+from ftplib import FTP
+from io import BytesIO
+import os
+
+# 🔥 FTP CONFIG สำหรับ sg-host
+FTP_CONFIG = {
+    "ftp_host": "ftp.taechins18.sg-host.com",
+    "ftp_user": "admin@taechins18.sg-host.com",
+    "ftp_pass": "#),51@37f]1i",
+    "ftp_root": "/public_html",
+    "ftp_folder": "image",
+    "base_url": "https://taechins18.sg-host.com/image/"
+}
+
+def upload_image_to_ftp(image_url):
+    try:
+        ftp = FTP()
+        ftp.connect(FTP_CONFIG["ftp_host"], 21)
+        ftp.login(FTP_CONFIG["ftp_user"], FTP_CONFIG["ftp_pass"])
+
+        ftp.cwd(FTP_CONFIG["ftp_root"])
+        folders = []
+        ftp.retrlines("NLST", folders.append)
+        if FTP_CONFIG["ftp_folder"] not in folders:
+            ftp.mkd(FTP_CONFIG["ftp_folder"])
+        ftp.cwd(FTP_CONFIG["ftp_folder"])
+
+        filename = os.path.basename(urlparse(image_url).path)
+        new_url = f"{FTP_CONFIG['base_url']}{filename}"
+
+        response = requests.get(image_url, impersonate="chrome")
+        response.raise_for_status()
+        ftp.storbinary(f"STOR {filename}", BytesIO(response.content))
+        ftp.quit()
+
+        print(f"✅ Uploaded profile_pic to FTP: {new_url}")
+        return new_url
+    except Exception as e:
+        print(f"❌ Error uploading profile_pic {image_url}: {e}")
+        return image_url  # fallback ถ้า error
 
 
 class RequestHandler:
@@ -157,6 +197,17 @@ class PageInfo:
                             or user.get("profilePicMedium", {}).get("uri")
                             or user.get("profilePicSmall", {}).get("uri")
                     )
+
+                    fb_profile_pic = (
+                            user.get("profilePicLarge", {}).get("uri")
+                            or user.get("profilePicMedium", {}).get("uri")
+                            or user.get("profilePicSmall", {}).get("uri")
+                    )
+                    if fb_profile_pic:
+                        sg_host_pic = upload_image_to_ftp(fb_profile_pic)
+                        general_info["profile_pic"] = sg_host_pic
+                    else:
+                        general_info["profile_pic"] = None
 
                     profile_social_contents = user.get(
                         "profile_social_context", {}
