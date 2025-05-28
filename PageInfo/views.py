@@ -32,6 +32,14 @@ def add_page(request, group_id):
                 if follower_data:
                     fb_data.update(follower_data)
 
+              from .fb_page_info import upload_to_sghost  # เพิ่ม import ฟังก์ชัน
+        original_pic = fb_data.get('profile_pic')
+        if original_pic and 'scontent' in original_pic:
+            try:
+                fb_data['profile_pic'] = upload_to_sghost(original_pic)
+            except Exception as e:
+                print(f"❌ Error uploading profile_pic: {e}")
+
             allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
             filtered_data = {k: v for k, v in fb_data.items() if k in allowed_fields}
 
