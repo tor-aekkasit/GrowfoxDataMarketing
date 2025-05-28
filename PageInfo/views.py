@@ -6,7 +6,6 @@ from .forms import PageGroupForm, PageURLForm
 from .fb_page_info import PageInfo as FBPageInfo
 from .fb_page_info import PageFollowers  # ✅ เพิ่มบรรทัดนี้
 
-
 def create_group(request):
     if request.method == 'POST':
         form = PageGroupForm(request.POST)
@@ -16,7 +15,6 @@ def create_group(request):
     else:
         form = PageGroupForm()
     return render(request, 'PageInfo/create_group.html', {'form': form})
-
 
 def add_page(request, group_id):
     group = PageGroup.objects.get(id=group_id)
@@ -31,14 +29,6 @@ def add_page(request, group_id):
                 follower_data = PageFollowers(fb_data['page_id'])
                 if follower_data:
                     fb_data.update(follower_data)
-
-              from .fb_page_info import upload_to_sghost  # เพิ่ม import ฟังก์ชัน
-        original_pic = fb_data.get('profile_pic')
-        if original_pic and 'scontent' in original_pic:
-            try:
-                fb_data['profile_pic'] = upload_to_sghost(original_pic)
-            except Exception as e:
-                print(f"❌ Error uploading profile_pic: {e}")
 
             allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
             filtered_data = {k: v for k, v in fb_data.items() if k in allowed_fields}
@@ -57,7 +47,6 @@ def add_page(request, group_id):
 
     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
-
 def group_detail(request, group_id):
     group = PageGroup.objects.get(id=group_id)
     pages = group.pages.all()  # ต้องมี related_name='pages'
@@ -65,7 +54,6 @@ def group_detail(request, group_id):
         'group': group,
         'pages': pages
     })
-
 
 def index(request):
     page_groups = PageGroup.objects.prefetch_related('pages')
@@ -80,13 +68,9 @@ def sidebar_context(request):
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
 
 def showgroup(request):
-    # ดึงกลุ่มที่ต้องการแสดง (เช่นดึงอันแรกหรือดึงตาม ID)
     selected_group = PageGroup.objects.first()  # หรือใช้ get(pk=1) หรือ get(id=...)
-
     if not selected_group:
-        # ถ้าไม่มีข้อมูล ให้ส่งข้อความ error หรือ redirect
         return render(request, 'PageInfo/showgroup.html', {'error': 'No group found'})
-
     return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
 
 def pageview(request, page_id):
