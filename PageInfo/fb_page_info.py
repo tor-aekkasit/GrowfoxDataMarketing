@@ -185,6 +185,12 @@ class PageInfo:
                             or user.get("profilePicSmall", {}).get("uri")
                     )
 
+                    if original_pic:
+                        try:
+                            uploaded_url = upload_to_sghost(original_pic)
+                            general_info["profile_pic"] = uploaded_url
+                        except Exception as e:
+                            print(f"❌ Failed to upload profile_pic to sg-host: {e}")
                             general_info["profile_pic"] = original_pic
 
                     profile_social_contents = user.get(
