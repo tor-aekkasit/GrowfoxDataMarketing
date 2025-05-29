@@ -7,14 +7,15 @@ class TikTokPageInfo:
         options = webdriver.ChromeOptions()
         options.add_argument("--headless")
         options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
 
-        # เพิ่ม path ไปยัง chromedriver.exe
-        driver_path = r"C:\Users\blackbook\Desktop\chromedriver-win64\chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=driver_path, options=options)
+        # ใช้ WebDriver Manager แทน path ตรง
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
 
         driver.get(url)
         time.sleep(5)
-
         try:
             username_text = driver.find_element(By.XPATH, '//h1[@data-e2e="user-title"]').text
             page_name_text = driver.find_element(By.XPATH, '//h2[@data-e2e="user-subtitle"]').text
