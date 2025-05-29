@@ -655,15 +655,28 @@
       </div>
 
       <div class="row text-center mt-4">
-                <div class="col">
-  <div class="fw-semibold">{{ page.page_followers_count|intcomma|default:"-" }}</div>
+        <div class="col">
+  <div class="fw-semibold">
+    {% if page.platform == "tiktok" %}
+      {{ page.page_followers|default:"-" }}
+    {% else %}
+      {{ page.page_followers_count|intcomma|default:"-" }}
+    {% endif %}
+  </div>
   <div class="text-muted small">Followers</div>
 </div>
 
 <div class="col">
-  <div class="fw-semibold">{{ page.page_likes_count|intcomma|default:"-" }}</div>
+  <div class="fw-semibold">
+    {% if page.platform == "tiktok" %}
+      {{ page.page_likes|default:"-" }}
+    {% else %}
+      {{ page.page_likes_count|intcomma|default:"-" }}
+    {% endif %}
+  </div>
   <div class="text-muted small">Likes</div>
 </div>
+
         <div class="col">
           <div class="fw-semibold">
             {% if page.platform == "facebook" %}
@@ -680,7 +693,6 @@
     </div>
   </div>
 </div>
-
 
             <!-- Footer -->
 <footer class="content-footer footer bg-footer-theme mt-auto py-4 border-top">
