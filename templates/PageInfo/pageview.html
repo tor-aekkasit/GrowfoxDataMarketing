@@ -1,4 +1,5 @@
 {%  load static %}
+{% load humanize %}
 
 <!doctype html>
 
@@ -654,14 +655,15 @@
       </div>
 
       <div class="row text-center mt-4">
-        <div class="col">
-          <div class="fw-semibold">{{ page.page_followers|default:"-" }}</div>
-          <div class="text-muted small">Followers</div>
-        </div>
-        <div class="col">
-          <div class="fw-semibold">{{ page.page_likes|default:"-" }}</div>
-          <div class="text-muted small">Likes</div>
-        </div>
+                <div class="col">
+  <div class="fw-semibold">{{ page.page_followers_count|intcomma|default:"-" }}</div>
+  <div class="text-muted small">Followers</div>
+</div>
+
+<div class="col">
+  <div class="fw-semibold">{{ page.page_likes_count|intcomma|default:"-" }}</div>
+  <div class="text-muted small">Likes</div>
+</div>
         <div class="col">
           <div class="fw-semibold">
             {% if page.platform == "facebook" %}
