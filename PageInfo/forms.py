@@ -2,10 +2,22 @@ from django import forms
 from .models import PageGroup
 
 class PageURLForm(forms.Form):
+    PLATFORM_CHOICES = [
+        ('facebook', 'Facebook'),
+        ('tiktok', 'TikTok'),
+    ]
+    platform = forms.ChoiceField(
+        choices=PLATFORM_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'form-control form-control-lg',
+        }),
+        required=True,  # บังคับเลือก platform
+        label="Platform"
+    )
     url = forms.URLField(
         label="Page URL",
         widget=forms.URLInput(attrs={
-            'class': 'form-control form-control-lg',  # ใส่ขนาด input ใหญ่เหมือนหน้า add_page
+            'class': 'form-control form-control-lg',
             'placeholder': 'Input URL Page'
         })
     )
