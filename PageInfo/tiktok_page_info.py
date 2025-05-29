@@ -1,40 +1,65 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-import time
+import requests
+import re
+import json
 
-class TikTokPageInfo:
-    def __new__(cls, url):
-        options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
+def get_tiktok_info(url):
+    # แยก username จาก URL เช่น https://www.tiktok.com/@atlascat_official
+    match = re.search(r"tiktok\.com/@([\w\.\-]+)", url)
+    if not match:
+        print("❌ URL ไม่ถูกต้องหรือไม่พบ username")
+        return None
 
-        # ใช้ WebDriver Manager แทน path ตรง
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=options)
+    username = match.group(1)
+    url = f'https://www.tiktok.com/@{username}'
 
-        driver.get(url)
-        time.sleep(5)
-        try:
-            username_text = driver.find_element(By.XPATH, '//h1[@data-e2e="user-title"]').text
-            page_name_text = driver.find_element(By.XPATH, '//h2[@data-e2e="user-subtitle"]').text
-            followers = driver.find_element(By.XPATH, '//strong[@data-e2e="followers-count"]').text
-            likes = driver.find_element(By.XPATH, '//strong[@data-e2e="likes-count"]').text
-            bio = driver.find_element(By.XPATH, '//h2[@data-e2e="user-bio"]').text
-            profile_pic = driver.find_element(By.XPATH, '//img[contains(@class, "ImgAvatar")]').get_attribute("src")
-        except Exception as e:
-            print(f"❌ Error extracting data: {e}")
-            driver.quit()
-            return None
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                      "AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/113.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    }
 
-        driver.quit()
-        return {
-            "username": username_text,
-            "page_name": page_name_text,
-            "followers": followers,
-            "likes": likes,
-            "bio": bio,
-            "profile_pic": profile_pic,
-            "url": url
-        }
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        html = response.text
+
+        # หา JSON object ที่ชื่อ 'webapp.user-detail'
+        match = re.search(r'"webapp\.user-detail":\s*({.*?})\s*,\s*"webapp', html)
+        if match:
+            json_text = match.group(1)
+            try:
+                data = json.loads(json_text)
+                user_info = data.get("userInfo", {}).get("user", {})
+                stats = data.get("userInfo", {}).get("stats", {})
+                if user_info:
+                    result = {
+                        "username": user_info.get("uniqueId"),
+                        "nickname": user_info.get("nickname"),
+                        "bio": user_info.get("signature"),
+                        "profile_pic": user_info.get("avatarLarger"),
+                        "followers": stats.get("followerCount"),
+                        "likes": stats.get("heartCount"),
+                        "url": url
+                    }
+                    return result
+                else:
+                    print("❌ ไม่พบข้อมูล userInfo")
+            except Exception as e:
+                print(f"❌ Error parsing JSON: {e}")
+        else:
+            print("❌ ไม่เจอ webapp.user-detail ใน HTML")
+    else:
+        print(f"❌ HTTP Error: {response.status_code}")
+
+    return None
+
+# ทดสอบการรันตรงนี้
+if __name__ == "__main__":
+    url = "https://www.tiktok.com/@atlascat_official"  # หรือ URL อื่น
+    data = get_tiktok_info(url)
+    if data:
+        print("✅ ดึงข้อมูลสำเร็จ:")
+        print(data)
+    else:
+        print("❌ ดึงข้อมูลไม่สำเร็จ")
