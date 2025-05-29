@@ -723,10 +723,10 @@
   </td>
 
   <!-- Followers -->
-  <td>{{ page.page_followers|default:"-" }}</td>
+  <td>{{ page.page_followers_count|default:"-" }}</td>
 
   <!-- Likes -->
-  <td>{{ page.page_likes|default:"-" }}</td>
+  <td>{{ page.page_likes_count|default:"-" }}</td>
 
   <!-- Talking, Website, Email, Phone (เฉพาะ Facebook) -->
   {% if page.platform == "facebook" %}
