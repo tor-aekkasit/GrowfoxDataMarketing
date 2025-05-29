@@ -9,6 +9,9 @@ class PageGroup(models.Model):
 
 class PageInfo(models.Model):
     page_group = models.ForeignKey(PageGroup, on_delete=models.CASCADE, related_name='pages')
+    # ใน models.py
+    platform = models.CharField(max_length=20, choices=[('facebook', 'Facebook'), ('tiktok', 'TikTok')],
+                                default='facebook')
 
     # ข้อมูลทั่วไป
     page_name = models.CharField(max_length=255, null=True, blank=True)
