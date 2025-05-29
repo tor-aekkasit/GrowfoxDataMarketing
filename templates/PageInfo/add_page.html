@@ -676,25 +676,32 @@
         {% if form %}
           <form method="POST">
             {% csrf_token %}
+
+            <!-- เพิ่ม dropdown เลือก Platform -->
+            <div class="mb-3 text-start">
+              <label for="id_platform" class="form-label fw-semibold">Select Platform:</label>
+              {{ form.platform }}  <!-- Field platform จาก PageURLForm -->
+            </div>
+
             <div class="mb-3 text-start">
               <label for="id_url" class="form-label fw-semibold">Page URL:</label>
               {{ form.url }}
             </div>
 
-            <!-- ปุ่มกลางชิดกัน -->
             <div class="d-flex justify-content-center gap-2">
               <a href="javascript:history.back()" class="btn btn-outline-secondary">Cancel</a>
               <button type="submit" class="btn btn-warning" style="background-color: #FF6801; border: none;">Add Page</button>
             </div>
-
           </form>
         {% else %}
           <p class="text-danger">Form Error 420</p>
         {% endif %}
+
       </div>
     </div>
   </div>
 </div>
+
 
 
 
