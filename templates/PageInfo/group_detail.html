@@ -722,17 +722,18 @@
     </div>
   </td>
 
+  <!-- Followers -->
 <!-- Followers -->
 <td class="hover-count">
-  <span class="short">{{ page.page_followers|default:"-" }}</span>
-  <span class="full">{{ page.page_followers_count|default:"-" }}</span>
+  <span class="short">{{ page.page_followers|intcomma|default:"-" }}</span>
+  <span class="full">{{ page.page_followers_count|intcomma|default:"-" }}</span>
 </td>
 
-<!-- Likes -->
 <td class="hover-count">
-  <span class="short">{{ page.page_likes|default:"-" }}</span>
-  <span class="full">{{ page.page_likes_count|default:"-" }}</span>
+  <span class="short">{{ page.page_likes|intcomma|default:"-" }}</span>
+  <span class="full">{{ page.page_likes_count|intcomma|default:"-" }}</span>
 </td>
+
 
 <style>
 .hover-count .full {
