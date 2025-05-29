@@ -722,11 +722,36 @@
     </div>
   </td>
 
-  <!-- Followers -->
-  <td>{{ page.page_followers_count|default:"-" }}</td>
+<!-- Followers -->
+<td class="hover-count">
+  <span class="short">{{ page.page_followers|default:"-" }}</span>
+  <span class="full">{{ page.page_followers_count|default:"-" }}</span>
+</td>
 
-  <!-- Likes -->
-  <td>{{ page.page_likes_count|default:"-" }}</td>
+<!-- Likes -->
+<td class="hover-count">
+  <span class="short">{{ page.page_likes|default:"-" }}</span>
+  <span class="full">{{ page.page_likes_count|default:"-" }}</span>
+</td>
+
+<style>
+.hover-count .full {
+  display: none; /* ซ่อนค่าเต็มตอนปกติ */
+  background-color: black;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.hover-count:hover .short {
+  display: none; /* ซ่อนค่าแบบย่อเมื่อ hover */
+}
+
+.hover-count:hover .full {
+  display: inline; /* แสดงค่าเต็มเมื่อ hover */
+}
+</style>
+
 
   <!-- Talking, Website, Email, Phone (เฉพาะ Facebook) -->
   {% if page.platform == "facebook" %}
