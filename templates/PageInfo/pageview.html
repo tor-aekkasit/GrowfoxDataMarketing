@@ -596,73 +596,88 @@
 <!-- Content wrapper -->
 <div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="card p-4 mb-4">
-          <div class="row justify-content-between align-items-start mb-4">
-            <div class="col-md-9 d-flex">
-              <div class="position-relative me-3">
-                <a href="{{ page.page_url }}" target="_blank" class="position-absolute" style="top: 0px; left: 90px; z-index: 2;">
-                  <img src="{% static 'assets/img/icons/facebook-icon.webp' %}" alt="Facebook Icon" style="width: 20px; height: 20px;" />
-                </a>
-                <a href="{{ page.page_url }}" target="_blank">
-                  <img class="rounded-circle border border-2 border-light" src="{{ page.profile_pic }}" alt="Page Logo" width="100" height="100" />
-                </a>
-              </div>
-              <div class="ms-2">
-                <h5 class="mb-2">{{ page.page_name }}</h5>
-                <div class="text-muted mb-1"><strong>Page Username:</strong> {{ page.page_username }}</div>
-                <div class="text-muted mb-1"><strong>Page Categories:</strong> {{ page.page_category }}</div>
-              </div>
-            </div>
-            <div class="col-md-3 d-flex justify-content-end">
-              <input type="date" class="form-control" style="max-width: 180px; font-size: 0.9rem;" />
-            </div>
+    <div class="card p-4 mb-4">
+      <div class="row justify-content-between align-items-start mb-4">
+        <div class="col-md-9 d-flex">
+          <div class="position-relative me-3">
+            <a href="{{ page.page_url }}" target="_blank" class="position-absolute" style="top: 0px; left: 90px; z-index: 2;">
+              {% if page.platform == "facebook" %}
+              <img src="{% static 'assets/img/icons/facebook-icon.webp' %}" alt="Facebook Icon" style="width: 20px; height: 20px;" />
+              {% elif page.platform == "tiktok" %}
+              <img src="{% static 'assets/img/icons/tiktoklogo.webp' %}" alt="TikTok Icon" style="width: 20px; height: 20px;" />
+              {% endif %}
+            </a>
+            <a href="{{ page.page_url }}" target="_blank">
+              <img class="rounded-circle border border-2 border-light" src="{{ page.profile_pic }}" alt="Page Logo" width="100" height="100" />
+            </a>
           </div>
-
-          <div class="row mb-4">
-            <div class="col-md-4 text-muted"><strong>Page Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website }}</a></div>
-            <div class="col-md-4 text-muted"><strong>Page Email:</strong> <a href="mailto:{{ page.page_email }}">{{ page.page_email }}</a></div>
-            <div class="col-md-4 text-muted"><strong>Page Number:</strong> {{ page.page_phone|default:"-" }}</div>
-          </div>
-
-          {% if page.page_description %}
-          <div class="row mb-4 mt-3">
-            <div class="col-md-8">
-              <strong>Page Description:</strong>
-              <div class="text-muted">{{ page.page_description }}</div>
+          <div class="ms-2">
+            <h5 class="mb-2">{{ page.page_name|default:page.page_username }}</h5>
+            <div class="text-muted mb-1">
+              <strong>Page Username:</strong> {{ page.page_username|default:"-" }}
             </div>
-            {% if page.page_address %}
-            <div class="col-md-4">
-              <strong>Page Address:</strong>
-              <div class="text-muted">{{ page.page_address }}</div>
+            {% if page.platform == "facebook" %}
+            <div class="text-muted mb-1">
+              <strong>Page Categories:</strong> {{ page.page_category|default:"-" }}
             </div>
             {% endif %}
           </div>
-          {% endif %}
-<div class="row text-center mt-4">
-  <div class="col">
-    <div class="fw-semibold">
-      {{ page.page_followers_count|default:"-" }}
-    </div>
-    <div class="text-muted small">Page Followers</div>
-  </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-end">
+          <input type="date" class="form-control" style="max-width: 180px; font-size: 0.9rem;" />
+        </div>
+      </div>
 
-  <div class="col">
-    <div class="fw-semibold">
-      {{ page.page_likes_count|default:"-" }}
-    </div>
-    <div class="text-muted small">Page Likes</div>
-  </div>
+      <div class="row mb-4">
+        {% if page.platform == "facebook" %}
+        <div class="col-md-4 text-muted"><strong>Page Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website|default:"-" }}</a></div>
+        <div class="col-md-4 text-muted"><strong>Page Email:</strong> <a href="mailto:{{ page.page_email }}">{{ page.page_email|default:"-" }}</a></div>
+        <div class="col-md-4 text-muted"><strong>Page Number:</strong> {{ page.page_phone|default:"-" }}</div>
+        {% else %}
+        <div class="col-md-4 text-muted"><strong>Platform:</strong> TikTok</div>
+        <div class="col-md-4 text-muted"><strong>Contact:</strong> -</div>
+        <div class="col-md-4 text-muted"><strong>Phone:</strong> -</div>
+        {% endif %}
+      </div>
 
-  <div class="col">
-    <div class="fw-semibold">
-      {{ page.page_talking_count|default:"0" }}
+      <div class="row mb-4 mt-3">
+        <div class="col-md-8">
+          <strong>{% if page.platform == "facebook" %}Page Description:{% else %}Bio:{% endif %}</strong>
+          <div class="text-muted">{{ page.page_description|default:"-" }}</div>
+        </div>
+        {% if page.platform == "facebook" and page.page_address %}
+        <div class="col-md-4">
+          <strong>Page Address:</strong>
+          <div class="text-muted">{{ page.page_address }}</div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="row text-center mt-4">
+        <div class="col">
+          <div class="fw-semibold">{{ page.page_followers|default:"-" }}</div>
+          <div class="text-muted small">Followers</div>
+        </div>
+        <div class="col">
+          <div class="fw-semibold">{{ page.page_likes|default:"-" }}</div>
+          <div class="text-muted small">Likes</div>
+        </div>
+        <div class="col">
+          <div class="fw-semibold">
+            {% if page.platform == "facebook" %}
+              {{ page.page_talking_count|default:"0" }}
+            {% else %}
+              -
+            {% endif %}
+          </div>
+          <div class="text-muted small">Talking</div>
+        </div>
+      </div>
+
+      <div class="content-backdrop fade"></div>
     </div>
-    <div class="text-muted small">Page Talking</div>
   </div>
 </div>
-
-            <div class="content-backdrop fade"></div>
-          </div>
           <!-- Content wrapper -->
   </div>
 </div>
