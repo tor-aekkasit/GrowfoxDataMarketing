@@ -5,6 +5,8 @@ from .models import PageGroup, PageInfo
 from .forms import PageGroupForm, PageURLForm
 from .fb_page_info import PageInfo as FBPageInfo
 from .fb_page_info import PageFollowers  # ✅ เพิ่มบรรทัดนี้
+from .tiktok_page_info import get_tiktok_info  # แก้เป็น import get_tiktok_info
+
 
 def create_group(request):
     if request.method == 'POST':
@@ -23,7 +25,7 @@ def add_page(request, group_id):
         form = PageURLForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data['url']
-            platform = form.cleaned_data['platform']  # เพิ่ม platform ในฟอร์ม
+            platform = form.cleaned_data['platform']
 
             if platform == 'facebook':
                 fb_data = FBPageInfo(url)
@@ -42,19 +44,17 @@ def add_page(request, group_id):
                     elif isinstance(value, int):
                         filtered_data[key] = value
 
-                filtered_data['platform'] = 'facebook'  # เพิ่ม platform ใน record
+                filtered_data['platform'] = 'facebook'
                 PageInfo.objects.create(page_group=group, **filtered_data)
 
             elif platform == 'tiktok':
-                from .tiktok_page_info import TikTokPageInfo
-                tiktok_data = TikTokPageInfo(url)
+                tiktok_data = get_tiktok_info(url)  # ใช้ get_tiktok_info(url) แทน TikTokPageInfo
 
                 if tiktok_data:
-                    # Mapping TikTok fields to PageInfo fields
                     allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
                     filtered_data = {
                         'page_username': tiktok_data.get('username'),
-                        'page_name': tiktok_data.get('page_name'),
+                        'page_name': tiktok_data.get('nickname'),  # ใช้ nickname จาก TikTok
                         'page_followers': tiktok_data.get('followers'),
                         'page_likes': tiktok_data.get('likes'),
                         'page_description': tiktok_data.get('bio'),
@@ -62,18 +62,19 @@ def add_page(request, group_id):
                         'page_url': tiktok_data.get('url'),
                         'platform': 'tiktok'
                     }
-                    # ตรวจสอบว่าแต่ละ field อยู่ใน allowed_fields
                     filtered_data = {k: v for k, v in filtered_data.items() if k in allowed_fields}
 
                     PageInfo.objects.create(page_group=group, **filtered_data)
                 else:
-                    form.add_error(None, "Failed to fetch TikTok data.")
+                    form.add_error(None, "❌ ไม่สามารถดึงข้อมูล TikTok ได้ กรุณาตรวจสอบ URL หรือรอสักครู่")
                     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
             return redirect('group_detail', group_id=group.id)
 
     else:
         form = PageURLForm()
+
+    return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 def group_detail(request, group_id):
