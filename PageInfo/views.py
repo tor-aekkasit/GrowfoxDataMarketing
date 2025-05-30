@@ -17,6 +17,7 @@ def add_page(request, group_id):
         if form.is_valid():
             url = form.cleaned_data['url']
             platform = form.cleaned_data['platform']
+            allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
 
             if platform == 'facebook':
                 fb_data = FBPageInfo(url)
@@ -24,8 +25,6 @@ def add_page(request, group_id):
                     follower_data = PageFollowers(fb_data['page_id'])
                     if follower_data:
                         fb_data.update(follower_data)
-
-                allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
                 filtered_data = {k: v for k, v in fb_data.items() if k in allowed_fields}
 
                 for key in ['page_likes_count', 'page_followers_count']:
@@ -41,7 +40,6 @@ def add_page(request, group_id):
             elif platform == 'tiktok':
                 tiktok_data = get_tiktok_info(url)
                 if tiktok_data:
-                    allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
                     filtered_data = {
                         'page_username': tiktok_data.get('username'),
                         'page_name': tiktok_data.get('nickname'),
@@ -53,40 +51,81 @@ def add_page(request, group_id):
                         'platform': 'tiktok'
                     }
                     filtered_data = {k: v for k, v in filtered_data.items() if k in allowed_fields}
-
                     PageInfo.objects.create(page_group=group, **filtered_data)
                 else:
                     form.add_error(None, "❌ ไม่สามารถดึงข้อมูล TikTok ได้ กรุณาตรวจสอบ URL หรือรอสักครู่")
                     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
             elif platform == 'instagram':
-                # ดึง username จาก url เช่น https://www.instagram.com/chillpainai/
                 match = re.search(r"instagram\.com/([\w\.\-]+)/?", url)
                 if match:
                     username = match.group(1)
                     ig_data = get_instagram_info(username)
                     if ig_data:
-                        allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
                         filtered_data = {
                             'page_username': ig_data.get('username'),
                             'page_name': ig_data.get('username'),
                             'page_followers': ig_data.get('followers_count'),
-                            'page_website': ig_data.get('website'),  # ✅ เพิ่มตรงนี้
-                            'page_category': ig_data.get('category'),  # ✅ เพิ่มตรงนี้
-                            'post_count': ig_data.get('post_count'),  # ✅ เพิ่มตรงนี้
+                            'page_website': ig_data.get('website'),
+                            'page_category': ig_data.get('category'),
+                            'post_count': ig_data.get('post_count'),
                             'page_description': ig_data.get('bio'),
                             'profile_pic': ig_data.get('profile_pic'),
                             'page_url': ig_data.get('url'),
                             'platform': 'instagram'
                         }
                         filtered_data = {k: v for k, v in filtered_data.items() if k in allowed_fields}
-
                         PageInfo.objects.create(page_group=group, **filtered_data)
                     else:
                         form.add_error(None, "❌ ไม่สามารถดึงข้อมูล Instagram ได้ กรุณาตรวจสอบ URL หรือรอสักครู่")
                         return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
                 else:
                     form.add_error(None, "❌ URL Instagram ไม่ถูกต้อง")
+                    return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
+
+
+            elif platform == 'lemon8':
+
+                lm8_data = get_lemon8_info(url)  # ใช้ url เต็ม ไม่ต้องตัด username
+
+                if lm8_data:
+
+                    allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
+
+                    filtered_data = {
+
+                        'page_username': lm8_data.get('username'),
+
+                        'page_name': lm8_data.get('username'),
+
+                        'page_followers': lm8_data.get('followers_count'),
+
+                        'page_likes': lm8_data.get('likes_count'),
+
+                        'following_count': lm8_data.get('following_count'),
+
+                        'age': lm8_data.get('age'),
+
+                        'page_description': lm8_data.get('bio'),
+
+                        'page_website': lm8_data.get('website'),
+
+                        'profile_pic': lm8_data.get('profile_pic'),
+
+                        'page_url': lm8_data.get('url'),
+
+                        'platform': 'lemon8'
+
+                    }
+
+                    filtered_data = {k: v for k, v in filtered_data.items() if k in allowed_fields}
+
+                    PageInfo.objects.create(page_group=group, **filtered_data)
+
+                else:
+
+                    form.add_error(None, "❌ ไม่สามารถดึงข้อมูล Lemon8 ได้ กรุณาตรวจสอบ URL หรือรอสักครู่")
+
                     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
             return redirect('group_detail', group_id=group.id)
