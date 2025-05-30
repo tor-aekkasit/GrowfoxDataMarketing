@@ -607,7 +607,9 @@
               {% elif page.platform == "tiktok" %}
                 <img src="{% static 'assets/img/icons/tiktoklogo.webp' %}" alt="TikTok Icon" style="width: 20px; height: 20px;" />
               {% elif page.platform == "instagram" %}
-                <img src="{% static 'assets/img/icons/iglogo.png' %}" alt="Instagram Icon" style="width: 35px; height: 30px;" />
+                <img src="{% static 'assets/img/icons/iglogo.png' %}" alt="Instagram Icon" style="width: 35px; height: 28px;" />
+              {% elif page.platform == "lemon8" %}
+                <img src="{% static 'assets/img/icons/lemon8logo.png' %}" alt="Lemon8 Icon" style="width: 25px; height: 25 px;" />
               {% endif %}
             </a>
             <a href="{{ page.page_url }}" target="_blank">
@@ -622,7 +624,9 @@
             {% if page.platform == "facebook" %}
               <div class="text-muted mb-1"><strong>Page Categories:</strong> {{ page.page_category|default:"-" }}</div>
             {% elif page.platform == "instagram" %}
-                <div class="text-muted mb-1"><strong>Platform:</strong> Instagram</div>
+              <div class="text-muted mb-1"><strong>Platform:</strong> Instagram</div>
+            {% elif page.platform == "lemon8" %}
+              <div class="text-muted mb-1"><strong>Platform:</strong> Lemon8</div>
             {% endif %}
           </div>
         </div>
@@ -631,27 +635,40 @@
         </div>
       </div>
 
-<div class="row mb-4">
-  {% if page.platform == "facebook" %}
-    <div class="col-md-4 text-muted"><strong>Page Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website|default:"-" }}</a></div>
-    <div class="col-md-4 text-muted"><strong>Page Email:</strong> <a href="mailto:{{ page.page_email }}">{{ page.page_email|default:"-" }}</a></div>
-    <div class="col-md-4 text-muted"><strong>Page Number:</strong> {{ page.page_phone|default:"-" }}</div>
-  {% elif page.platform == "tiktok" %}
-    <div class="col-md-4 text-muted"><strong>Platform:</strong> TikTok</div>
-    <div class="col-md-4 text-muted"><strong>Contact:</strong> -</div>
-    <div class="col-md-4 text-muted"><strong>Phone:</strong> -</div>
-  {% elif page.platform == "instagram" %}
-    <div class="col-md-4 text-muted"><strong>Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website|default:"-" }}</a></div>
-    <div class="col-md-4 text-muted"><strong>Category:</strong> {{ page.page_category|default:"-" }}</div>
-    <!-- ไม่ต้องแสดง Contact / Phone สำหรับ IG -->
-  {% endif %}
-</div>
+      {% if page.platform == "facebook" %}
+      <div class="row mb-4">
+        <div class="col-md-4 text-muted"><strong>Page Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website|default:"-" }}</a></div>
+        <div class="col-md-4 text-muted"><strong>Page Email:</strong> <a href="mailto:{{ page.page_email }}">{{ page.page_email|default:"-" }}</a></div>
+        <div class="col-md-4 text-muted"><strong>Page Number:</strong> {{ page.page_phone|default:"-" }}</div>
+      </div>
+      {% elif page.platform == "tiktok" %}
+      <div class="row mb-4">
+        <div class="col-md-4 text-muted"><strong>Platform:</strong> TikTok</div>
+        <div class="col-md-4 text-muted"><strong>Contact:</strong> -</div>
+        <div class="col-md-4 text-muted"><strong>Phone:</strong> -</div>
+      </div>
+      {% elif page.platform == "instagram" %}
+      <div class="row mb-4">
+        <div class="col-md-4 text-muted"><strong>Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website|default:"-" }}</a></div>
+        <div class="col-md-4 text-muted"><strong>Category:</strong> {{ page.page_category|default:"-" }}</div>
+      </div>
+      {% elif page.platform == "lemon8" %}
+      <div class="row mb-4">
+        <div class="col-md-4 text-muted"><strong>Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website|default:"-" }}</a></div>
+        <div class="col-md-4 text-muted"><strong>Age:</strong> {{ page.age|default:"-" }}</div>
+        <div class="col-md-4 text-muted"><strong>Following:</strong> {{ page.following_count|intcomma|default:"-" }}</div>
+      </div>
+      {% endif %}
 
 <div class="row mb-4 mt-3">
   <div class="col-md-8">
-    <strong>{% if page.platform == "facebook" %}Page Description:{% elif page.platform == "instagram" %}Bio:{% else %}Description:{% endif %}</strong>
+    <strong>
+      {% if page.platform == "facebook" %}Page Description:{% elif page.platform == "instagram" %}Bio:{% elif page.platform == "lemon8" %}Bio:{% else %}Description:{% endif %}
+    </strong>
     <div class="text-muted">{{ page.page_description|default:"-" }}</div>
   </div>
+
+  {# ✅ เงื่อนไขแสดง Page Address เฉพาะ Facebook ถ้ามี #}
   {% if page.platform == "facebook" and page.page_address %}
     <div class="col-md-4">
       <strong>Page Address:</strong>
@@ -660,51 +677,45 @@
   {% endif %}
 </div>
 
-<div class="row text-center mt-4">
-  <div class="col">
-    <div class="fw-semibold">
-      {% if page.platform == "facebook" %}
-        {{ page.page_followers_count|intcomma|default:"-" }}
-      {% elif page.platform == "tiktok" %}
-        {{ page.page_followers|intcomma|default:"-" }}
-      {% elif page.platform == "instagram" %}
-        {{ page.page_followers|intcomma|default:"-" }}
-      {% endif %}
-    </div>
-    <div class="text-muted small">Followers</div>
-  </div>
 
-  <div class="col">
-    <div class="fw-semibold">
-      {% if page.platform == "facebook" %}
-        {{ page.page_likes_count|intcomma|default:"-" }}
-      {% elif page.platform == "tiktok" %}
-        {{ page.page_likes|intcomma|default:"-" }}
-      {% elif page.platform == "instagram" %}
-        {{ page.post_count|intcomma|default:"-" }}
-      {% else %}
-        -
-      {% endif %}
-    </div>
-    <div class="text-muted small">
-      {% if page.platform == "instagram" %}All Post{% else %}Likes{% endif %}
-    </div>
-  </div>
-
-  <div class="col">
-    <div class="fw-semibold">
-      {% if page.platform == "facebook" %}
-        {{ page.page_talking_count|default:"0" }}
-      {% else %}
-        -
-      {% endif %}
-    </div>
-    <div class="text-muted small">
-      {% if page.platform == "facebook" %}Talking{% endif %}
-    </div>
-  </div>
-</div>
-
+      <div class="row text-center mt-4">
+        <div class="col">
+          <div class="fw-semibold">
+            {% if page.platform == "facebook" %}
+              {{ page.page_followers_count|intcomma|default:"-" }}
+            {% elif page.platform == "tiktok" %}
+              {{ page.page_followers|intcomma|default:"-" }}
+            {% elif page.platform == "instagram" or page.platform == "lemon8" %}
+              {{ page.page_followers|intcomma|default:"-" }}
+            {% endif %}
+          </div>
+          <div class="text-muted small">Followers</div>
+        </div>
+        <div class="col">
+          <div class="fw-semibold">
+            {% if page.platform == "facebook" %}
+              {{ page.page_likes_count|intcomma|default:"-" }}
+            {% elif page.platform == "tiktok" %}
+              {{ page.page_likes|intcomma|default:"-" }}
+            {% elif page.platform == "instagram" %}
+              {{ page.post_count|intcomma|default:"-" }}
+            {% elif page.platform == "lemon8" %}
+              {{ page.page_likes|intcomma|default:"-" }}
+            {% else %}
+              -
+            {% endif %}
+          </div>
+          <div class="text-muted small">
+            {% if page.platform == "instagram" %}All Post{% elif page.platform == "lemon8" %}Likes{% else %}Likes{% endif %}
+          </div>
+        </div>
+        {% if page.platform == "facebook" %}
+        <div class="col">
+          <div class="fw-semibold">{{ page.page_talking_count|default:"0" }}</div>
+          <div class="text-muted small">Talking</div>
+        </div>
+        {% endif %}
+      </div>
 
       <div class="content-backdrop fade"></div>
     </div>
