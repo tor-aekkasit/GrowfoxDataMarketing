@@ -709,8 +709,8 @@
               <th scope="col">Phone</th>
             </tr>
           </thead>
-          <tbody>
- {% for page in pages %}
+<tbody>
+{% for page in pages %}
 <tr>
   <td class="d-flex align-items-center">
     <img src="{{ page.profile_pic }}" alt="{{ page.page_name|default:page.page_username }}" width="40" height="40" class="rounded-circle me-2">
@@ -723,14 +723,28 @@
     </div>
   </td>
 
+  <!-- Followers -->
   <td class="hover-count">
     <span class="short">{{ page.page_followers|intcomma|default:"-" }}</span>
     <span class="full">{{ page.page_followers_count|intcomma|default:"-" }}</span>
   </td>
 
+  <!-- Likes หรือค่าที่แพลตฟอร์มอื่นใช้ -->
   <td class="hover-count">
-    <span class="short">{{ page.page_likes|intcomma|default:"-" }}</span>
-    <span class="full">{{ page.page_likes_count|intcomma|default:"-" }}</span>
+    <span class="short">
+      {% if page.platform == "lemon8" %}
+        {{ page.page_likes|default:"-" }}
+      {% else %}
+        {{ page.page_likes|intcomma|default:"-" }}
+      {% endif %}
+    </span>
+    <span class="full">
+      {% if page.platform == "lemon8" %}
+        {{ page.page_likes|default:"-" }}
+      {% else %}
+        {{ page.page_likes_count|intcomma|default:"-" }}
+      {% endif %}
+    </span>
   </td>
 
   <style>
@@ -741,22 +755,26 @@
     padding: 2px 5px;
     border-radius: 4px;
   }
-
   .hover-count:hover .short {
     display: none;
   }
-
   .hover-count:hover .full {
     display: inline;
   }
   </style>
 
+  <!-- Talking, Website, Email, Phone -->
   {% if page.platform == "facebook" %}
     <td>{{ page.page_talking_count|default:"0" }}</td>
     <td><a href="{{ page.page_website }}" target="_blank">{{ page.page_website|default:"-" }}</a></td>
     <td><a href="mailto:{{ page.page_email }}">{{ page.page_email|default:"-" }}</a></td>
     <td>{{ page.page_phone|default:"-" }}</td>
   {% elif page.platform == "instagram" %}
+    <td>-</td>
+    <td><a href="{{ page.page_website }}" target="_blank">{{ page.page_website|default:"-" }}</a></td>
+    <td>-</td>
+    <td>-</td>
+  {% elif page.platform == "lemon8" %}
     <td>-</td>
     <td><a href="{{ page.page_website }}" target="_blank">{{ page.page_website|default:"-" }}</a></td>
     <td>-</td>
@@ -769,8 +787,7 @@
   {% endif %}
 </tr>
 {% endfor %}
-
-          </tbody>
+</tbody>
         </table>
       </div>
     </div>
