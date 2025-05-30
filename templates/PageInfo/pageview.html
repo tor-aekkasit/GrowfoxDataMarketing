@@ -618,9 +618,16 @@
           </div>
           <div class="ms-2">
             <h5 class="mb-2">{{ page.page_name|default:page.page_username }}</h5>
-            <div class="text-muted mb-1">
-              <strong>Page Username:</strong> {{ page.page_username|default:"-" }}
-            </div>
+                        <div class="text-muted mb-1">
+  <strong>Page Username:</strong>
+  {% if page.platform == "lemon8" %}
+    {% with page.page_url|cut:"https://www.lemon8-app.com/" as lemon8_user %}
+      {{ lemon8_user }}
+    {% endwith %}
+  {% else %}
+    {{ page.page_username|default:"-" }}
+  {% endif %}
+</div>
             {% if page.platform == "facebook" %}
               <div class="text-muted mb-1"><strong>Page Categories:</strong> {{ page.page_category|default:"-" }}</div>
             {% elif page.platform == "instagram" %}
