@@ -6,6 +6,7 @@ class PageURLForm(forms.Form):
         ('facebook', 'Facebook'),
         ('tiktok', 'TikTok'),
         ('instagram', 'Instagram'),
+        ('lemon8', 'Lemon8'),
     ]
     platform = forms.ChoiceField(
         choices=PLATFORM_CHOICES,
