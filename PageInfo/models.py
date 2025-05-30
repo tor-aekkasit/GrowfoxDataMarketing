@@ -11,7 +11,7 @@ class PageInfo(models.Model):
     page_group = models.ForeignKey(PageGroup, on_delete=models.CASCADE, related_name='pages')
     platform = models.CharField(
         max_length=20,
-        choices=[('facebook', 'Facebook'), ('tiktok', 'TikTok'), ('instagram', 'Instagram')],
+        choices=[('facebook', 'Facebook'), ('tiktok', 'TikTok'), ('instagram', 'Instagram'),  ('lemon8', 'Lemon8')],
         default='facebook'
     )
     page_name = models.CharField(max_length=255, null=True, blank=True)
@@ -32,7 +32,8 @@ class PageInfo(models.Model):
     page_phone = models.CharField(max_length=100, null=True, blank=True)
     page_email = models.EmailField(max_length=254, null=True, blank=True)
     page_website = models.URLField(max_length=500, null=True, blank=True)
-
+    following_count = models.CharField(max_length=100, null=True, blank=True)  # เช่น "9"
+    age = models.CharField(max_length=50, null=True, blank=True)  # เช่น "ช่วงอายุ 20 ปี"
     # 🔥 เพิ่ม field สำหรับ Instagram post_count
     post_count = models.IntegerField(null=True, blank=True)
 
