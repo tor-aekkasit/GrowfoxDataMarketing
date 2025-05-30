@@ -723,44 +723,44 @@
     </div>
   </td>
 
-  <!-- Followers -->
-<!-- Followers -->
-<td class="hover-count">
-  <span class="short">{{ page.page_followers|intcomma|default:"-" }}</span>
-  <span class="full">{{ page.page_followers_count|intcomma|default:"-" }}</span>
-</td>
+  <td class="hover-count">
+    <span class="short">{{ page.page_followers|intcomma|default:"-" }}</span>
+    <span class="full">{{ page.page_followers_count|intcomma|default:"-" }}</span>
+  </td>
 
-<td class="hover-count">
-  <span class="short">{{ page.page_likes|intcomma|default:"-" }}</span>
-  <span class="full">{{ page.page_likes_count|intcomma|default:"-" }}</span>
-</td>
+  <td class="hover-count">
+    <span class="short">{{ page.page_likes|intcomma|default:"-" }}</span>
+    <span class="full">{{ page.page_likes_count|intcomma|default:"-" }}</span>
+  </td>
 
+  <style>
+  .hover-count .full {
+    display: none;
+    background-color: black;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
 
-<style>
-.hover-count .full {
-  display: none; /* ซ่อนค่าเต็มตอนปกติ */
-  background-color: black;
-  color: white;
-  padding: 2px 5px;
-  border-radius: 4px;
-}
+  .hover-count:hover .short {
+    display: none;
+  }
 
-.hover-count:hover .short {
-  display: none; /* ซ่อนค่าแบบย่อเมื่อ hover */
-}
+  .hover-count:hover .full {
+    display: inline;
+  }
+  </style>
 
-.hover-count:hover .full {
-  display: inline; /* แสดงค่าเต็มเมื่อ hover */
-}
-</style>
-
-
-  <!-- Talking, Website, Email, Phone (เฉพาะ Facebook) -->
   {% if page.platform == "facebook" %}
     <td>{{ page.page_talking_count|default:"0" }}</td>
     <td><a href="{{ page.page_website }}" target="_blank">{{ page.page_website|default:"-" }}</a></td>
     <td><a href="mailto:{{ page.page_email }}">{{ page.page_email|default:"-" }}</a></td>
     <td>{{ page.page_phone|default:"-" }}</td>
+  {% elif page.platform == "instagram" %}
+    <td>-</td>
+    <td><a href="{{ page.page_website }}" target="_blank">{{ page.page_website|default:"-" }}</a></td>
+    <td>-</td>
+    <td>-</td>
   {% else %}
     <td>-</td>
     <td>-</td>
@@ -769,6 +769,7 @@
   {% endif %}
 </tr>
 {% endfor %}
+
           </tbody>
         </table>
       </div>
