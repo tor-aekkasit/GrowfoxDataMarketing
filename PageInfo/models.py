@@ -11,7 +11,7 @@ class PageInfo(models.Model):
     page_group = models.ForeignKey(PageGroup, on_delete=models.CASCADE, related_name='pages')
     platform = models.CharField(
         max_length=20,
-        choices=[('facebook', 'Facebook'), ('tiktok', 'TikTok'), ('instagram', 'Instagram'),  ('lemon8', 'Lemon8')],
+        choices=[('facebook', 'Facebook'), ('tiktok', 'TikTok'), ('instagram', 'Instagram'),  ('lemon8', 'Lemon8'),  ('youtube', 'Youtube')],
         default='facebook'
     )
     page_name = models.CharField(max_length=255, null=True, blank=True)
@@ -36,6 +36,9 @@ class PageInfo(models.Model):
     age = models.CharField(max_length=50, null=True, blank=True)  # เช่น "ช่วงอายุ 20 ปี"
     # 🔥 เพิ่ม field สำหรับ Instagram post_count
     post_count = models.IntegerField(null=True, blank=True)
+    page_join_date = models.CharField(max_length=100, null=True, blank=True)
+    page_videos_count = models.BigIntegerField(null=True, blank=True)
+    page_total_views = models.BigIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.page_name or "Unnamed Page"
