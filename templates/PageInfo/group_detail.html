@@ -697,18 +697,26 @@
         <input type="text" placeholder="Search Page" class="form-control w-25">
       </div>
       <div class="table-responsive">
-        <table class="table table-striped align-middle text-center">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">Page</th>
-              <th scope="col">Followers</th>
-              <th scope="col">Likes</th>
-              <th scope="col">Talking</th>
-              <th scope="col">Website</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-            </tr>
-          </thead>
+  <table class="table table-striped align-middle text-center">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Page</th>
+        <th scope="col">Followers</th>
+
+        {% if pages|length > 0 and pages.0.platform == "youtube" %}
+          <th scope="col">Viewers</th>
+          <th scope="col">All Video</th>
+        {% else %}
+          <th scope="col">Likes</th>
+          <th scope="col">Talking</th>
+        {% endif %}
+
+        <th scope="col">Website</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+      </tr>
+    </thead>
+
 <tbody>
 {% for page in pages %}
 <tr>
@@ -779,13 +787,17 @@
     <td><a href="{{ page.page_website }}" target="_blank">{{ page.page_website|default:"-" }}</a></td>
     <td>-</td>
     <td>-</td>
-  {% else %}
-    <td>-</td>
-    <td>-</td>
-    <td>-</td>
-    <td>-</td>
-  {% endif %}
-</tr>
+{% elif page.platform == "youtube" %}
+  <td>{{ page.page_videos_count|default:"-" }}</td>
+  <td><a href="{{ page.page_website }}" target="_blank">{{ page.page_website|default:"-" }}</a></td>
+  <td>-</td>
+  <td>-</td>
+{% else %}
+  <td>-</td>
+  <td>-</td>
+  <td>-</td>
+  <td>-</td>
+{% endif %}</tr>
 {% endfor %}
 </tbody>
         </table>
