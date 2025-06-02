@@ -610,30 +610,38 @@
                 <img src="{% static 'assets/img/icons/iglogo.png' %}" alt="Instagram Icon" style="width: 35px; height: 28px;" />
               {% elif page.platform == "lemon8" %}
                 <img src="{% static 'assets/img/icons/lemon8logo.png' %}" alt="Lemon8 Icon" style="width: 25px; height: 25 px;" />
+              {% elif page.platform == "youtube" %}
+                <img src="{% static 'assets/img/icons/youtubelogo.png' %}" alt="Youtube Icon" style="width: 25px; height: 25 px;" />
               {% endif %}
             </a>
             <a href="{{ page.page_url }}" target="_blank">
               <img class="rounded-circle border border-2 border-light" src="{{ page.profile_pic|default:'/static/assets/default-profile.png' }}" alt="Page Logo" width="100" height="100" />
             </a>
           </div>
-          <div class="ms-2">
-            <h5 class="mb-2">{{ page.page_name|default:page.page_username }}</h5>
-                        <div class="text-muted mb-1">
-  <strong>Page Username:</strong>
-  {% if page.platform == "lemon8" %}
-    {% with page.page_url|cut:"https://www.lemon8-app.com/" as lemon8_user %}
-      {{ lemon8_user }}
-    {% endwith %}
-  {% else %}
-    {{ page.page_username|default:"-" }}
-  {% endif %}
-</div>
+      <div class="ms-2">
+    <h5 class="mb-2">{{ page.page_name|default:page.page_username }}</h5>
+    <div class="text-muted mb-1">
+        <strong>Page Username:</strong>
+        {% if page.platform == "lemon8" %}
+            {% with page.page_url|cut:"https://www.lemon8-app.com/" as lemon8_user %}
+                {{ lemon8_user }}
+            {% endwith %}
+        {% elif page.platform == "youtube" %}
+            {% with page.page_url|cut:"http://www.youtube.com/"|cut:"https://www.youtube.com/"|cut:"@" as yt_user %}
+                {{ yt_user }}
+            {% endwith %}
+        {% else %}
+            {{ page.page_username|default:"-" }}
+        {% endif %}
+    </div>
             {% if page.platform == "facebook" %}
               <div class="text-muted mb-1"><strong>Page Categories:</strong> {{ page.page_category|default:"-" }}</div>
             {% elif page.platform == "instagram" %}
               <div class="text-muted mb-1"><strong>Platform:</strong> Instagram</div>
             {% elif page.platform == "lemon8" %}
               <div class="text-muted mb-1"><strong>Platform:</strong> Lemon8</div>
+                {% elif page.platform == "youtube" %}
+              <div class="text-muted mb-1"><strong>Platform:</strong> YouTube</div>
             {% endif %}
           </div>
         </div>
@@ -665,6 +673,12 @@
         <div class="col-md-4 text-muted"><strong>Age:</strong> {{ page.age|default:"-" }}</div>
         <div class="col-md-4 text-muted"><strong>Following:</strong> {{ page.following_count|intcomma|default:"-" }}</div>
       </div>
+      {% elif page.platform == "youtube" %}
+  <div class="row mb-4">
+        <div class="col-md-4 text-muted"><strong>Website:</strong> <a href="{{ page.page_website }}">{{ page.page_website|default:"-" }}</a></div>
+    <div class="col-md-4 text-muted"><strong>Country:</strong> {{ page.page_address|default:"-" }}</div>
+    <div class="col-md-4 text-muted"><strong>Join Date:</strong> {{ page.page_join_date|default:"-" }}</div>
+  </div>
       {% endif %}
 
 <div class="row mb-4 mt-3">
@@ -694,9 +708,17 @@
               {{ page.page_followers|intcomma|default:"-" }}
             {% elif page.platform == "instagram" or page.platform == "lemon8" %}
               {{ page.page_followers|intcomma|default:"-" }}
+                {% elif page.platform == "youtube" %}
+              {{ page.page_followers|intcomma|default:"-" }}
             {% endif %}
           </div>
-          <div class="text-muted small">Followers</div>
+          <div class="text-muted small">
+      {% if page.platform == "youtube" %}
+        Subscribe
+      {% else %}
+        Followers
+      {% endif %}
+    </div>
         </div>
         <div class="col">
           <div class="fw-semibold">
@@ -708,20 +730,31 @@
               {{ page.post_count|intcomma|default:"-" }}
             {% elif page.platform == "lemon8" %}
               {{ page.page_likes|intcomma|default:"-" }}
+                {% elif page.platform == "youtube" %}
+  {{ page.page_total_views|intcomma|default:"-" }}
             {% else %}
               -
             {% endif %}
           </div>
           <div class="text-muted small">
-            {% if page.platform == "instagram" %}All Post{% elif page.platform == "lemon8" %}Likes{% else %}Likes{% endif %}
+  {% if page.platform == "youtube" %}All Views{% elif page.platform == "instagram" %}All Post{% elif page.platform == "lemon8" %}Likes{% else %}Likes{% endif %}
           </div>
         </div>
-        {% if page.platform == "facebook" %}
         <div class="col">
-          <div class="fw-semibold">{{ page.page_talking_count|default:"0" }}</div>
-          <div class="text-muted small">Talking</div>
-        </div>
-        {% endif %}
+  <div class="fw-semibold">
+    {% if page.platform == "facebook" %}
+      {{ page.page_talking_count|intcomma|default:"-" }}
+    {% elif page.platform == "youtube" %}
+      {{ page.page_videos_count|intcomma|default:"-" }}
+    {% endif %}
+  </div>
+  <div class="text-muted small">
+    {% if page.platform == "facebook" %}
+      Talking
+    {% elif page.platform == "youtube" %}
+      All Videos
+    {% endif %}
+    </div>
       </div>
 
       <div class="content-backdrop fade"></div>
