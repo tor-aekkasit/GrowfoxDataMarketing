@@ -14,10 +14,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from xml.etree.ElementInclude import include
-
-from django.contrib import admin
-from django.urls import path, include
 from django.contrib import admin
 from django.urls import path
 from PageInfo import views
@@ -28,6 +24,5 @@ urlpatterns = [
     path('create-group/', views.create_group, name='create_group'),  # ✅ เพิ่มบรรทัดนี้
     path('add-page/<int:group_id>/', views.add_page, name='add_page'),
     path('group/<int:group_id>/', views.group_detail, name='group_detail'),
-    path('showgroup/', views.showgroup, name='showgroup'),  # ✅ เพิ่ม
     path('page/<int:page_id>/', views.pageview, name='pageview'),
 ]
