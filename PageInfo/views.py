@@ -1,13 +1,33 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Prefetch
-from django.http import HttpResponseRedirect
 from .models import PageGroup, PageInfo
 from .forms import PageGroupForm, PageURLForm
 from .fb_page_info import PageInfo as FBPageInfo
 from .fb_page_info import PageFollowers  # ✅ เพิ่มบรรทัดนี้
 from .tiktok_page_info import get_tiktok_info  # แก้เป็น import get_tiktok_info
 from .ig_page_info import get_instagram_info
+from .lm8_page_info import get_lemon8_info  # ✅ เพิ่มบรรทัดนี้
+from .yt_page_info import get_youtube_info
 import re
+
+def clean_number(value):
+    if isinstance(value, str):
+        value = value.lower().replace(',', '').replace(' videos', '').replace(' views', '').replace(' subscribers', '').strip()
+        if 'k' in value:
+            return int(float(value.replace('k', '')) * 1_000)
+        elif 'm' in value:
+            return int(float(value.replace('m', '')) * 1_000_000)
+        elif 'b' in value:
+            return int(float(value.replace('b', '')) * 1_000_000_000)
+        try:
+            return int(value)
+        except ValueError:
+            return 0
+    elif isinstance(value, (int, float)):
+        return int(value)
+    else:
+        return 0
+
 
 def add_page(request, group_id):
     group = PageGroup.objects.get(id=group_id)
@@ -56,31 +76,57 @@ def add_page(request, group_id):
                     form.add_error(None, "❌ ไม่สามารถดึงข้อมูล TikTok ได้ กรุณาตรวจสอบ URL หรือรอสักครู่")
                     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
+
             elif platform == 'instagram':
+
                 match = re.search(r"instagram\.com/([\w\.\-]+)/?", url)
+
                 if match:
+
                     username = match.group(1)
+
                     ig_data = get_instagram_info(username)
+
                     if ig_data:
+
                         filtered_data = {
+
                             'page_username': ig_data.get('username'),
+
                             'page_name': ig_data.get('username'),
+
                             'page_followers': ig_data.get('followers_count'),
+
                             'page_website': ig_data.get('website'),
+
                             'page_category': ig_data.get('category'),
+
                             'post_count': ig_data.get('post_count'),
+
                             'page_description': ig_data.get('bio'),
+
                             'profile_pic': ig_data.get('profile_pic'),
+
                             'page_url': ig_data.get('url'),
+
                             'platform': 'instagram'
+
                         }
+
                         filtered_data = {k: v for k, v in filtered_data.items() if k in allowed_fields}
+
                         PageInfo.objects.create(page_group=group, **filtered_data)
+
                     else:
+
                         form.add_error(None, "❌ ไม่สามารถดึงข้อมูล Instagram ได้ กรุณาตรวจสอบ URL หรือรอสักครู่")
+
                         return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
+
                 else:
+
                     form.add_error(None, "❌ URL Instagram ไม่ถูกต้อง")
+
                     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
 
@@ -128,12 +174,72 @@ def add_page(request, group_id):
 
                     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
 
+
+
+
+            elif platform == 'youtube':
+
+                from .yt_page_info import get_youtube_info
+
+                yt_data = get_youtube_info(url)
+
+                if yt_data:
+
+                    allowed_fields = {f.name for f in PageInfo._meta.get_fields()}
+
+                    yt_data['subscribers_count'] = clean_number(yt_data.get('subscribers_count'))
+
+                    yt_data['videos_count'] = clean_number(yt_data.get('videos_count'))
+
+                    yt_data['total_views'] = clean_number(yt_data.get('total_views'))
+
+                    filtered_data = {
+
+                        'page_username': yt_data.get('username'),
+
+                        'page_name': yt_data.get('page_name'),
+
+                        'page_followers': yt_data.get('subscribers_count'),
+
+                        'profile_pic': yt_data.get('profile_pic'),
+
+                        'page_url': yt_data.get('page_url'),
+
+                        'page_description': yt_data.get('bio'),
+
+                        'page_address': yt_data.get('country'),
+
+                        'page_join_date': yt_data.get('join_date'),
+
+                        'page_videos_count': yt_data.get('videos_count'),
+
+                        'page_total_views': yt_data.get('total_views'),
+
+                        'page_website': yt_data.get('page_website'),
+
+                        'platform': 'youtube'
+
+                    }
+
+                    filtered_data = {k: v for k, v in filtered_data.items() if k in allowed_fields}
+
+                    PageInfo.objects.create(page_group=group, **filtered_data)
+
+                else:
+
+                    form.add_error(None, "❌ ไม่สามารถดึงข้อมูล YouTube ได้ กรุณาตรวจสอบ URL หรือรอสักครู่")
+
+                    return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
+
             return redirect('group_detail', group_id=group.id)
+
 
     else:
         form = PageURLForm()
 
     return render(request, 'PageInfo/add_page.html', {'form': form, 'group': group})
+
+
 
 
 def create_group(request):
@@ -154,6 +260,7 @@ def group_detail(request, group_id):
         'pages': pages
     })
 
+
 def index(request):
     page_groups = PageGroup.objects.prefetch_related('pages')
     total_groups = page_groups.count()  # นับจำนวนกลุ่มทั้งหมด
@@ -165,12 +272,6 @@ def index(request):
 def sidebar_context(request):
     page_groups = PageGroup.objects.all()
     return {'page_groups_sidebar': page_groups, 'page_groups_count': page_groups.count()}
-
-def showgroup(request):
-    selected_group = PageGroup.objects.first()  # หรือใช้ get(pk=1) หรือ get(id=...)
-    if not selected_group:
-        return render(request, 'PageInfo/showgroup.html', {'error': 'No group found'})
-    return render(request, 'PageInfo/showgroup.html', {'selected_group': selected_group})
 
 def pageview(request, page_id):
     page = get_object_or_404(PageInfo, id=page_id)
