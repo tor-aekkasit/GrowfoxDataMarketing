@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = [
+  "wget",
+  "libnss3",
+  "libatk-bridge",
+  "libxss",
+  "libgtk3",
+  "libdrm",
+  "libgbm",
+  "alsa-lib"
+]
