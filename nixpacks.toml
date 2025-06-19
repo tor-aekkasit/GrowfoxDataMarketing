@@ -7,5 +7,6 @@ nixPkgs = [
   "libgtk3",
   "libdrm",
   "libgbm",
-  "alsa-lib"
+  "alsa-lib",
+  "gcc"
 ]
